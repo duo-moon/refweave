@@ -1,0 +1,91 @@
+[project]
+name = "refweave"
+version = "0.1.0"
+description = "Graph-informed chunking for wiki-like sources"
+authors = [
+    {name = "Filipp Brazhnikov", email = "flbrazhnikov@gmail.com"}
+]
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+    "anyio>=4.0",
+    "typer>=0.12",
+]
+
+[project.scripts]
+refweave = "refweave.cli:app"
+
+[tool.poetry]
+packages = [{include = "refweave", from = "src"}]
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.6"
+mypy = "^1.11"
+pytest = "^8.0"
+pytest-asyncio = "^0.24"
+pre-commit = "^3.8"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",     # pycodestyle
+    "F",          # pyflakes
+    "I",          # isort
+    "B",          # bugbear
+    "UP",         # pyupgrade
+    "N",          # pep8-naming
+    "SIM",        # simplify
+    "RUF",        # ruff-specific
+    "C4",         # comprehensions
+    "PT",         # pytest style
+    "PL",         # pylint
+    "TRY",        # tryceratops
+    "TID",        # tidy imports
+    "T20",        # print statements
+    "ASYNC",      # async best practices
+]
+ignore = [
+    "PLR0913",    # too many arguments (config-like dataclasses)
+    "TRY003",     # long exception messages
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["PLR2004", "S101", "PT011"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unreachable = true
+warn_unused_ignores = true
+show_error_codes = true
+mypy_path = "src"
+explicit_package_bases = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+]
+markers = [
+    "live: tests hitting a live Confluence tenant (opt-in, slow)",
+]
