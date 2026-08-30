@@ -7,14 +7,60 @@ authors = [
 ]
 readme = "README.md"
 license = "MIT"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<4.0"
+keywords = [
+    "rag",
+    "chunking",
+    "knowledge-graph",
+    "confluence",
+    "jira",
+    "markdown",
+    "retrieval-augmented-generation",
+    "corpus-analysis",
+    "leiden",
+    "async",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3 :: Only",
+    "Framework :: AsyncIO",
+    "Framework :: Pydantic :: 2",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Markup",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Typing :: Typed",
+]
 dependencies = [
     "anyio>=4.0",
-    "typer>=0.12",
+    "httpx>=0.27,<0.28",
+    "aiolimiter>=1.1",
+    "lxml>=5.2",
+    "pydantic>=2.7",
+    "aiofiles>=24.1",
+    "aiosqlite>=0.20",
+    "igraph>=0.11",
+    "leidenalg>=0.10",
+    "pyyaml>=6.0",
+    "markdown-it-py>=3.0",
 ]
 
-[project.scripts]
-refweave = "refweave.cli:app"
+[project.urls]
+Homepage = "https://github.com/duo-moon/refweave"
+Repository = "https://github.com/duo-moon/refweave"
+Documentation = "https://github.com/duo-moon/refweave/blob/main/docs/CONCEPTS.md"
+Changelog = "https://github.com/duo-moon/refweave/blob/main/CHANGELOG.md"
+Issues = "https://github.com/duo-moon/refweave/issues"
 
 [tool.poetry]
 packages = [{include = "refweave", from = "src"}]
@@ -25,6 +71,11 @@ mypy = "^1.11"
 pytest = "^8.0"
 pytest-asyncio = "^0.24"
 pre-commit = "^3.8"
+respx = "^0.21"
+lxml-stubs = "^0.5"
+types-aiofiles = "^24.1"
+types-pyyaml = "^6.0"
+twine = "^5.1"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
@@ -52,14 +103,57 @@ select = [
     "TID",        # tidy imports
     "T20",        # print statements
     "ASYNC",      # async best practices
+    "TCH",        # flake8-type-checking (annotation-only imports)
+    "DTZ",        # datetimez — reject naive datetime constructors
+    "FA",         # future-annotations — require `from __future__ import annotations`
+    "ARG",        # unused-arguments — mark deliberate ones with `del` or `_` prefix
+    "RSE",        # raise — `raise X` over `raise X()` when no args
+    "PGH",        # pygrep-hooks — `noqa` / `type: ignore` must carry codes
+    "ISC",        # implicit-str-concat — catches missing commas in string lists
+    "RET",        # return — drop unnecessary else after return, etc.
+    "PIE",        # misc anti-patterns (list(x for ...), duplicate dict keys, ...)
+    "BLE",        # blind-except — no bare `except:` / `except Exception:`
+    "SLOT",       # subclass of __slots__ class must define __slots__
+    "INP",        # implicit-namespace-package — require __init__.py in Python packages
+    "T10",        # debugger — reject `import pdb` / stray `breakpoint()`
+    "PERF",       # perflint — flag hot-path anti-patterns (append-in-loop, ...)
+    "S",          # bandit — security checks; false-positives noqa'd inline
+    "A",          # builtins — avoid shadowing `id`, `type`, `list`, etc.
+    "EM",         # errmsg — assign exception message to variable for cleaner traceback
+    "PTH",        # pathlib — prefer Path.* over os.path.*
+    "LOG",        # logging — logger not module-level `logging.info`, etc.
+    "G",          # logging-format — no f-string in logger.* (use lazy %-format)
 ]
 ignore = [
     "PLR0913",    # too many arguments (config-like dataclasses)
     "TRY003",     # long exception messages
+    "UP031",      # allow %-formatting alongside .format/f-string
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**/*.py" = ["PLR2004", "S101", "PT011"]
+"tests/**/*.py" = [
+    "PLR2004",  # magic values are fine in test assertions
+    "S101",     # pytest assertions
+    "PT011",    # pytest.raises(match=...) not always practical
+    "S",        # bandit false-positives too noisy in tests
+]
+"scripts/**/*.py" = [
+    "PLR2004", "E501", "T201", "PLR0912", "PLR0915", "B905", "RUF100",
+    "INP001",   # scripts are standalone entrypoints, not a package
+    "S",        # bandit not appropriate for one-off scripts
+    "EM",       # verbose message pattern noise in one-off scripts
+]
+
+[tool.ruff.lint.flake8-type-checking]
+# Pydantic evaluates field annotations at runtime for validation; moving
+# their referenced types under TYPE_CHECKING breaks model_validate.
+# SourceExtra listed explicitly — ruff matches direct base classes only,
+# so subclasses-of-subclasses of BaseModel need their intermediate base
+# on this list too.
+runtime-evaluated-base-classes = [
+    "pydantic.BaseModel",
+    "refweave.plugins.extras.SourceExtra",
+]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -85,7 +179,4 @@ addopts = [
     "-ra",
     "--strict-markers",
     "--strict-config",
-]
-markers = [
-    "live: tests hitting a live Confluence tenant (opt-in, slow)",
 ]

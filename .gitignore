@@ -44,5 +44,23 @@ Thumbs.db
 
 # refweave runtime artifacts
 refweave-store/
+refweave-live-store/
+integration-state/
+integration-state-jira/
+integration-state-md/
 *.sqlite
 *.sqlite-journal
+
+# Downloaded corpora for offline tuning (large; not source)
+corpus/
+
+# Local scratch — quickstart output, ad-hoc dumps
+tmp/
+
+# Local exploration / integration entrypoints — not part of the shipped
+# library. Live locally, not in VCS.
+scripts/
+
+# Local secrets
+.env
+.env.local
