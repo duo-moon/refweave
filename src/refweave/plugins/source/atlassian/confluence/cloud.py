@@ -67,9 +67,7 @@ def _to_raw_page(data: dict[str, Any], space_key: str) -> RawPage:
     labels: tuple[str, ...] = ()
     if isinstance(labels_data, dict):
         labels = tuple(
-            str(lab.get("name", ""))
-            for lab in labels_data.get("results") or []
-            if lab.get("name")
+            str(lab.get("name", "")) for lab in labels_data.get("results") or [] if lab.get("name")
         )
     parent_raw = data.get("parentId")
     return RawPage(

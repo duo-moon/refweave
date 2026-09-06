@@ -113,7 +113,9 @@ def _init_repo(root: Path, files: dict[str, str]) -> Path:
     root.mkdir(parents=True, exist_ok=True)
     subprocess.run(["git", "init", "-q", "-b", "main"], cwd=root, check=True)
     subprocess.run(
-        ["git", "config", "user.email", "test@example.com"], cwd=root, check=True,
+        ["git", "config", "user.email", "test@example.com"],
+        cwd=root,
+        check=True,
     )
     subprocess.run(["git", "config", "user.name", "Test"], cwd=root, check=True)
     for relpath, content in files.items():
@@ -122,7 +124,9 @@ def _init_repo(root: Path, files: dict[str, str]) -> Path:
         path.write_text(content, encoding="utf-8")
     subprocess.run(["git", "add", "."], cwd=root, check=True)
     subprocess.run(
-        ["git", "commit", "-q", "-m", "seed"], cwd=root, check=True,
+        ["git", "commit", "-q", "-m", "seed"],
+        cwd=root,
+        check=True,
     )
     return root
 
@@ -164,7 +168,10 @@ async def test_git_clone_iter_uses_commit_timestamp(tmp_path: Path) -> None:
 def _git_head_ts(repo: Path) -> str:
     return subprocess.run(
         ["git", "log", "-1", "--format=%ct"],
-        cwd=repo, check=True, capture_output=True, text=True,
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
     ).stdout.strip()
 
 

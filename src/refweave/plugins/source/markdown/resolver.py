@@ -82,10 +82,7 @@ class MarkdownFileResolver:
             return link
 
         # Try to promote external links via the URL rewriter first.
-        if (
-            self._url_rewriter is not None
-            and link.kind == MarkdownLinkKind.EXTERNAL
-        ):
+        if self._url_rewriter is not None and link.kind == MarkdownLinkKind.EXTERNAL:
             promoted = self._promote_external(link, source_dir)
             if promoted is not None:
                 return promoted

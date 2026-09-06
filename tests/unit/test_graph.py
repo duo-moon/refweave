@@ -40,8 +40,12 @@ async def test_covers_every_endpoint_in_input() -> None:
 async def test_disconnected_components_get_distinct_clusters() -> None:
     # Two triangles, no bridge between them → at least two clusters.
     edges = [
-        ("a", "b"), ("b", "c"), ("a", "c"),
-        ("x", "y"), ("y", "z"), ("x", "z"),
+        ("a", "b"),
+        ("b", "c"),
+        ("a", "c"),
+        ("x", "y"),
+        ("y", "z"),
+        ("x", "z"),
     ]
     result = await run_leiden(edges)
     # Nodes from different components must not share a cluster.
@@ -56,8 +60,12 @@ async def test_same_seed_produces_reproducible_partition() -> None:
     # cluster assignments up to relabeling. We check membership-partition
     # equality (structural), not cluster_id equality.
     edges = [
-        ("a", "b"), ("b", "c"), ("a", "c"),
-        ("x", "y"), ("y", "z"), ("x", "z"),
+        ("a", "b"),
+        ("b", "c"),
+        ("a", "c"),
+        ("x", "y"),
+        ("y", "z"),
+        ("x", "z"),
     ]
     r1 = await run_leiden(edges, seed=42)
     r2 = await run_leiden(edges, seed=42)

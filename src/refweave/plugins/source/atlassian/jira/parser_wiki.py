@@ -32,8 +32,7 @@ logger = logging.getLogger(__name__)
 _HEADING_RE: Final = re.compile(r"^h([1-6])\.\s+(.+)$")
 _HR_RE: Final = re.compile(r"^-{4,}$")
 _BLOCK_MACRO_RE: Final = re.compile(
-    r"^\{(code|noformat|quote|panel|info|warning|note|tip)"
-    r"(?::[^}]*)?\}$",
+    r"^\{(code|noformat|quote|panel|info|warning|note|tip)" r"(?::[^}]*)?\}$",
 )
 _MACRO_CLOSE_RE: Final = re.compile(r"^\{(code|noformat|quote|panel|info|warning|note|tip)\}$")
 _LIST_LINE_RE: Final = re.compile(r"^([*#\-]+)\s+(.*)$")
@@ -247,16 +246,27 @@ def _macro_element(
         if language:
             metadata["language"] = language
         return StructuralElement(
-            seq=seq, kind=SectionKind.CODE, text=text, raw=raw, metadata=metadata,
+            seq=seq,
+            kind=SectionKind.CODE,
+            text=text,
+            raw=raw,
+            metadata=metadata,
         )
     if macro_name == "noformat":
         metadata["language"] = "text"
         return StructuralElement(
-            seq=seq, kind=SectionKind.CODE, text=text, raw=raw, metadata=metadata,
+            seq=seq,
+            kind=SectionKind.CODE,
+            text=text,
+            raw=raw,
+            metadata=metadata,
         )
     if macro_name == "quote":
         return StructuralElement(
-            seq=seq, kind=SectionKind.QUOTE, text=_strip_inline(text), raw=raw,
+            seq=seq,
+            kind=SectionKind.QUOTE,
+            text=_strip_inline(text),
+            raw=raw,
         )
     if macro_name == "panel":
         title = _macro_param(open_line, "title")

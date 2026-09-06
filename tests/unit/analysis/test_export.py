@@ -40,8 +40,16 @@ async def test_export_record_shape(
     await export_jsonl(persistence, source_id, path)
     first = json.loads(path.read_text(encoding="utf-8").splitlines()[0])
     for key in (
-        "id", "document", "document_title", "seq", "kind", "text",
-        "sections", "outgoing_links", "metadata", "cluster_id",
+        "id",
+        "document",
+        "document_title",
+        "seq",
+        "kind",
+        "text",
+        "sections",
+        "outgoing_links",
+        "metadata",
+        "cluster_id",
         "incoming_anchor_from",
     ):
         assert key in first, key

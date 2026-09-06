@@ -186,9 +186,7 @@ def test_invalid_document_id_raises(bad_id: str) -> None:
     doc = Document(
         id=bad_id,
         title="x",
-        sections=(
-            Section(id="sec:x:x:0", document=bad_id, seq=0, kind="paragraph", text="a"),
-        ),
+        sections=(Section(id="sec:x:x:0", document=bad_id, seq=0, kind="paragraph", text="a"),),
         sync=SyncState(version=1, updated_at=datetime(2026, 1, 1, tzinfo=UTC)),
     )
     with pytest.raises(ValueError, match="invalid document id"):

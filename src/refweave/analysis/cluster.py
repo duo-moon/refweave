@@ -37,14 +37,10 @@ class ClusterSummary:
 
     def __str__(self) -> str:
         header = f"# Cluster {self.cluster_id} — {self.label}\n"
-        stats = (
-            f"- docs: **{len(self.doc_ids)}**\n"
-            f"- chunks: **{self.chunk_count}**\n"
-        )
+        stats = f"- docs: **{len(self.doc_ids)}**\n" f"- chunks: **{self.chunk_count}**\n"
         if self.related_clusters:
             related_lines = "".join(
-                f"- cluster {r.cluster_id}: {r.edge_count} edge(s)\n"
-                for r in self.related_clusters
+                f"- cluster {r.cluster_id}: {r.edge_count} edge(s)\n" for r in self.related_clusters
             )
             related = f"\n## Related clusters\n{related_lines}"
         else:
@@ -146,8 +142,12 @@ async def cluster_summary(
 
     label = cluster_label(chunks_in_cluster)
     related = await _related_clusters(
-        persistence, source_id, doc_ids_ordered, cluster_id,
-        related_top_n, doc_cluster_map,
+        persistence,
+        source_id,
+        doc_ids_ordered,
+        cluster_id,
+        related_top_n,
+        doc_cluster_map,
     )
 
     return ClusterSummary(
@@ -185,6 +185,5 @@ async def _related_clusters(
             counts[target_cluster] += 1
 
     return tuple(
-        RelatedCluster(cluster_id=cid, edge_count=n)
-        for cid, n in counts.most_common(top_n)
+        RelatedCluster(cluster_id=cid, edge_count=n) for cid, n in counts.most_common(top_n)
     )

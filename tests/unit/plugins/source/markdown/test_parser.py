@@ -111,7 +111,7 @@ def test_gfm_table_flattens_cells() -> None:
 
 
 def test_html_block_recognized() -> None:
-    src = "<div class=\"note\">raw html</div>"
+    src = '<div class="note">raw html</div>'
     result = _parse(src)
     assert result[0].kind == ElementKind.HTML
     assert "raw html" in result[0].text

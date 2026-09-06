@@ -113,9 +113,7 @@ def _extract_comments(fields: dict[str, Any]) -> tuple[RawComment, ...]:
             continue
         author_obj = node.get("author") or {}
         author = str(
-            author_obj.get("displayName")
-            or author_obj.get("name")
-            or "",
+            author_obj.get("displayName") or author_obj.get("name") or "",
         )
         created_raw = node.get("created")
         created = parse_iso(str(created_raw)) if created_raw else epoch()

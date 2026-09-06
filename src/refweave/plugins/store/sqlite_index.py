@@ -286,10 +286,7 @@ class _SqliteGraphIndex:
             INSERT INTO cluster (source_id, document_id, cluster_id)
             VALUES (?, ?, ?)
             """,
-            [
-                (source_id, doc_id, cluster_id)
-                for doc_id, cluster_id in mapping.items()
-            ],
+            [(source_id, doc_id, cluster_id) for doc_id, cluster_id in mapping.items()],
         )
         await self._conn.commit()
         return len(set(mapping.values()))
@@ -325,9 +322,7 @@ class _SqliteGraphIndex:
         chunk_targets: dict[str, set[str]] = {}
         reverse: dict[str, set[str]] = {}
         exclude_placeholders = ",".join("?" * len(self._excluded))
-        where_kind = (
-            f"AND c.kind NOT IN ({exclude_placeholders})" if self._excluded else ""
-        )
+        where_kind = f"AND c.kind NOT IN ({exclude_placeholders})" if self._excluded else ""
         # `where_kind` is either "" or a fixed-shape `NOT IN (?,?,...)` — the
         # only thing interpolated is the placeholder count. Values are bound
         # positionally below, so this is not an SQL-injection surface.
@@ -385,8 +380,7 @@ class _SqliteGraphIndex:
             (source_id,),
         ) as cur:
             return [
-                (row["from_id"], row["to_id"], _ANCHOR_FOLLOW_CHANNEL, 1.0)
-                async for row in cur
+                (row["from_id"], row["to_id"], _ANCHOR_FOLLOW_CHANNEL, 1.0) async for row in cur
             ]
 
 
@@ -461,7 +455,6 @@ class _SqliteGraphQuery:
                     return
                 yield enriched
                 yielded += 1
-
 
     async def _doc_cluster(self, source_id: str, document_id: str) -> int | None:
         async with self._conn.execute(

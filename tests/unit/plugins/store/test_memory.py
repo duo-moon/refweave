@@ -55,8 +55,7 @@ def _chunk(source: str, external: str, seq: int, *, targets: tuple[str, ...] = (
         text=f"chunk {seq}",
         sections=(f"sec:{source}:{external}:0",),
         outgoing_links=tuple(
-            ChunkLinkRef(target_document=t, target_anchor=None, kind="page")
-            for t in targets
+            ChunkLinkRef(target_document=t, target_anchor=None, kind="page") for t in targets
         ),
     )
 

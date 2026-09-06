@@ -73,7 +73,9 @@ async def dump_analysis(
 
     graph_path = out / "graph.mmd"
     graph = await document_graph_mermaid(
-        persistence, source_id, max_nodes=graph_max_nodes,
+        persistence,
+        source_id,
+        max_nodes=graph_max_nodes,
     )
     await _write_text(graph_path, graph)
 
@@ -81,7 +83,9 @@ async def dump_analysis(
     cluster_paths: list[Path] = []
     for top in report.top_clusters:
         summary = await cluster_summary(
-            persistence, source_id, top.cluster_id,
+            persistence,
+            source_id,
+            top.cluster_id,
             sample_size=cluster_sample_size,
             doc_cluster_map=doc_cluster_map,
         )
@@ -119,8 +123,5 @@ def _index(report: CorpusReport, cluster_paths: list[Path]) -> str:
         "- [`chunks.jsonl`](chunks.jsonl) — all chunks + cluster/backlink info.",
         "- `clusters/` — one file per top cluster:",
     ]
-    lines.extend(
-        f"    - [`{path.name}`](clusters/{path.name})"
-        for path in cluster_paths
-    )
+    lines.extend(f"    - [`{path.name}`](clusters/{path.name})" for path in cluster_paths)
     return "\n".join(lines) + "\n"

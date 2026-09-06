@@ -51,10 +51,7 @@ def extract_user(fields: dict[str, Any], key: str) -> str | None:
     # displayName is the human-facing label; accountId is Cloud-only stable
     # id. We prefer displayName for readability and fall back to accountId /
     # name (DC).
-    return (
-        str(user.get("displayName") or user.get("accountId") or user.get("name") or "")
-        or None
-    )
+    return str(user.get("displayName") or user.get("accountId") or user.get("name") or "") or None
 
 
 def extract_updated(fields: dict[str, Any]) -> datetime:
@@ -74,11 +71,7 @@ def extract_parent_key(fields: dict[str, Any]) -> str | None:
 
 def extract_subtask_keys(fields: dict[str, Any]) -> tuple[str, ...]:
     subtasks = fields.get("subtasks") or ()
-    return tuple(
-        str(st["key"])
-        for st in subtasks
-        if isinstance(st, dict) and st.get("key")
-    )
+    return tuple(str(st["key"]) for st in subtasks if isinstance(st, dict) and st.get("key"))
 
 
 def extract_issuelinks(fields: dict[str, Any]) -> tuple[RawIssueLink, ...]:

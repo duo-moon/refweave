@@ -85,11 +85,13 @@ def test_cluster_label_from_repeating_first_lines() -> None:
         )
         return ChunkWithGraph(chunk=chunk, cluster_id=1, incoming_anchor_from=())
 
-    label = cluster_label([
-        _cwg("Setup Guide\nBody 1"),
-        _cwg("Setup Guide\nBody 2"),
-        _cwg("Advanced Topics\nBody 3"),
-    ])
+    label = cluster_label(
+        [
+            _cwg("Setup Guide\nBody 1"),
+            _cwg("Setup Guide\nBody 2"),
+            _cwg("Advanced Topics\nBody 3"),
+        ]
+    )
     # Top 2 distinct → both surface. Order preserved by Counter.most_common.
     assert "Setup Guide" in label
     assert "Advanced Topics" in label

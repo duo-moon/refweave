@@ -68,9 +68,7 @@ def test_parent_produces_parent_link() -> None:
 
 def test_all_links_rooted_in_section_zero() -> None:
     issue = _issue(
-        issuelinks=(
-            RawIssueLink(target_key="MFS-99", link_type="Blocks", direction="outward"),
-        ),
+        issuelinks=(RawIssueLink(target_key="MFS-99", link_type="Blocks", direction="outward"),),
         subtask_keys=("MFS-2",),
         parent_key="MFS-0",
     )
@@ -80,9 +78,7 @@ def test_all_links_rooted_in_section_zero() -> None:
 
 def test_link_ids_are_contiguous_from_zero() -> None:
     issue = _issue(
-        issuelinks=(
-            RawIssueLink(target_key="MFS-99", link_type="Blocks", direction="outward"),
-        ),
+        issuelinks=(RawIssueLink(target_key="MFS-99", link_type="Blocks", direction="outward"),),
         subtask_keys=("MFS-2",),
         parent_key="MFS-0",
     )
@@ -94,9 +90,7 @@ def test_link_ids_are_contiguous_from_zero() -> None:
 
 def test_no_target_anchor_and_unresolved() -> None:
     issue = _issue(
-        issuelinks=(
-            RawIssueLink(target_key="MFS-99", link_type="Blocks", direction="outward"),
-        ),
+        issuelinks=(RawIssueLink(target_key="MFS-99", link_type="Blocks", direction="outward"),),
     )
     link = next(iter(LinkExtractor().extract(issue, source_id="acme")))
     assert link.target_anchor is None

@@ -57,9 +57,7 @@ async def export_jsonl(
                     "kind": cwg.chunk.kind,
                     "text": cwg.chunk.text,
                     "sections": list(cwg.chunk.sections),
-                    "outgoing_links": [
-                        ref.model_dump() for ref in cwg.chunk.outgoing_links
-                    ],
+                    "outgoing_links": [ref.model_dump() for ref in cwg.chunk.outgoing_links],
                     "metadata": dict(cwg.chunk.metadata),
                     "cluster_id": cwg.cluster_id,
                     "incoming_anchor_from": list(cwg.incoming_anchor_from),

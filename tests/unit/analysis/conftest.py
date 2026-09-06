@@ -78,8 +78,7 @@ def _make_chunk(
         text=text,
         sections=(f"sec:s:{external}:0",),
         outgoing_links=tuple(
-            ChunkLinkRef(target_document=t, target_anchor=None, kind="page")
-            for t in targets
+            ChunkLinkRef(target_document=t, target_anchor=None, kind="page") for t in targets
         ),
     )
 
@@ -122,7 +121,9 @@ async def corpus() -> tuple[Persistence, MemoryStore]:
     chunks = {
         "a": [
             _make_chunk(
-                "a", 0, "Setup Guide\nInstall the package.",
+                "a",
+                0,
+                "Setup Guide\nInstall the package.",
                 targets=("doc:s:b", "doc:s:c"),
             ),
             _make_chunk("a", 1, "Configuration\nEdit the file."),

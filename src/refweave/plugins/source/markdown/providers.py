@@ -97,7 +97,8 @@ async def _read_files(
 
 
 def _local_scan(
-    root: Path, patterns: Sequence[str],
+    root: Path,
+    patterns: Sequence[str],
 ) -> list[tuple[Path, datetime]]:
     """Blocking rglob + per-file stat; call under `asyncio.to_thread`.
 
@@ -234,7 +235,8 @@ class GitCloneProvider:
         # stable across re-syncs of an unchanged repo (as opposed to
         # `datetime.now()` which would look "new" every time).
         commit_times, tip_time = await asyncio.to_thread(
-            _resolve_commit_times, clone_root,
+            _resolve_commit_times,
+            clone_root,
         )
         entries = await asyncio.to_thread(
             _git_scan,
@@ -258,12 +260,18 @@ class GitCloneProvider:
             return self._clone_root
         if self._cache_dir is not None:
             self._clone_root = await asyncio.to_thread(
-                _prepare_cached_clone, self._cache_dir, self._url, self._ref,
+                _prepare_cached_clone,
+                self._cache_dir,
+                self._url,
+                self._ref,
             )
         else:
             self._temp_dir = Path(await asyncio.to_thread(tempfile.mkdtemp, prefix="refweave-git-"))
             await asyncio.to_thread(
-                _clone_shallow, self._url, self._ref, self._temp_dir,
+                _clone_shallow,
+                self._url,
+                self._ref,
+                self._temp_dir,
             )
             self._clone_root = self._temp_dir
         return self._clone_root
@@ -333,8 +341,11 @@ def _resolve_commit_times(clone_root: Path) -> tuple[dict[str, datetime], dateti
     tip_time = datetime.fromtimestamp(int(tip_out), tz=UTC)
 
     log_out = _run_git(
-        "log", "--name-only", "--format=%ct",
-        "--diff-filter=AMR", cwd=clone_root,
+        "log",
+        "--name-only",
+        "--format=%ct",
+        "--diff-filter=AMR",
+        cwd=clone_root,
     )
     times: dict[str, datetime] = {}
     current_ts: datetime | None = None

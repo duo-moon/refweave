@@ -158,5 +158,3 @@ def test_section_ids_are_stable() -> None:
     doc = build_document(_raw(), elements, source_id="docs")
     assert doc.sections[0].id == "sec:docs:docs/setup.md:0"
     assert doc.sections[1].id == "sec:docs:docs/setup.md:1"
-
-

@@ -83,7 +83,8 @@ def _map_block(node: dict[str, Any], seq: int) -> StructuralElement | None:
         if node_type and node_type not in _SEEN_UNKNOWN_TYPES:
             _SEEN_UNKNOWN_TYPES.add(node_type)
             logger.warning(
-                "unknown ADF block type: %s (subsequent hits at DEBUG)", node_type,
+                "unknown ADF block type: %s (subsequent hits at DEBUG)",
+                node_type,
             )
         else:
             logger.debug("unknown ADF block type: %s", node_type)

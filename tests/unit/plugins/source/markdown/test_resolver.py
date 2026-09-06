@@ -178,7 +178,7 @@ async def test_url_rewriter_promotes_matching_external_to_internal() -> None:
     def rewriter(href: str) -> str | None:
         prefix = "https://docs.example.com/"
         if href.startswith(prefix):
-            return "/" + href[len(prefix):].strip("/") + ".md"
+            return "/" + href[len(prefix) :].strip("/") + ".md"
         return None
 
     resolver = MarkdownFileResolver(url_rewriter=rewriter)
@@ -197,7 +197,7 @@ async def test_url_rewriter_preserves_fragment_as_target_anchor() -> None:
     def rewriter(href: str) -> str | None:
         prefix = "https://docs.example.com/"
         if href.startswith(prefix):
-            path = href[len(prefix):]
+            path = href[len(prefix) :]
             return "/" + path if "#" in path else "/" + path + ".md"
         return None
 

@@ -75,7 +75,9 @@ class MarkdownSource:
                 msg = "MarkdownSource requires either `provider` or `root`"
                 raise ValueError(msg)
             provider = LocalDirectoryProvider(
-                root, patterns=patterns, exclude_patterns=exclude_patterns,
+                root,
+                patterns=patterns,
+                exclude_patterns=exclude_patterns,
             )
         elif root is not None:
             msg = "pass either `provider` or `root`, not both"
@@ -123,8 +125,7 @@ class MarkdownSource:
         )
         if links and not document.sections:
             logger.warning(
-                "markdown source %s emitted %d links but document has no sections; "
-                "doc_id=%s",
+                "markdown source %s emitted %d links but document has no sections; " "doc_id=%s",
                 self.source_id,
                 len(links),
                 document_id(self.source_id, raw.path),

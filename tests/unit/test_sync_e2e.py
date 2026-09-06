@@ -142,9 +142,7 @@ async def test_sync_stores_docs_and_links_and_chunks() -> None:
         document_id("s", "c"),
     }
 
-    a_chunks = [
-        cwg async for cwg in persistence.query.get_chunks("s", document_id("s", "a"))
-    ]
+    a_chunks = [cwg async for cwg in persistence.query.get_chunks("s", document_id("s", "a"))]
     assert len(a_chunks) >= 1
     assert any("alpha content" in cwg.chunk.text for cwg in a_chunks)
 
@@ -169,9 +167,7 @@ async def test_rechunk_uses_new_policy_without_resync() -> None:
     report = await rechunk("s", tighter, persistence)
 
     assert report.rechunked == 3
-    a_chunks = [
-        cwg async for cwg in persistence.query.get_chunks("s", document_id("s", "a"))
-    ]
+    a_chunks = [cwg async for cwg in persistence.query.get_chunks("s", document_id("s", "a"))]
     # Tiny limit → more chunks than the loose baseline.
     assert len(a_chunks) >= 2
 
@@ -217,9 +213,7 @@ async def test_sync_ids_use_id_helpers() -> None:
     persistence = await _persistence()
     await sync(_FakeSource(), _chunker(), persistence)
 
-    a_chunks = [
-        cwg async for cwg in persistence.query.get_chunks("s", document_id("s", "a"))
-    ]
+    a_chunks = [cwg async for cwg in persistence.query.get_chunks("s", document_id("s", "a"))]
     assert a_chunks[0].chunk.id == chunk_id("s", "a", 0)
 
 
@@ -238,7 +232,7 @@ class _CyclicSource:
                 document=doc_a,
                 links=(
                     _link("cyc", "a", 1, 0, b_id),
-                    _link("cyc", "a", 1, 1, a_id),   # self-loop
+                    _link("cyc", "a", 1, 1, a_id),  # self-loop
                 ),
             ),
             SyncedDocument(

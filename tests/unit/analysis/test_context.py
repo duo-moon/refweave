@@ -21,7 +21,11 @@ async def test_context_returns_center_before_after(
     persistence, _ = corpus
     # Doc A has chunks with seq 0 and 1; ask for chunk 0 with after=1.
     ctx = await chunk_with_context(
-        persistence, source_id, "chk:s:a:0", before=1, after=1,
+        persistence,
+        source_id,
+        "chk:s:a:0",
+        before=1,
+        after=1,
     )
     assert ctx is not None
     assert ctx.center.id == "chk:s:a:0"
@@ -37,7 +41,11 @@ async def test_context_clips_at_document_boundary(
 ) -> None:
     persistence, _ = corpus
     ctx = await chunk_with_context(
-        persistence, source_id, "chk:s:d:0", before=5, after=5,
+        persistence,
+        source_id,
+        "chk:s:d:0",
+        before=5,
+        after=5,
     )
     assert ctx is not None
     assert ctx.before == ()
@@ -51,7 +59,11 @@ async def test_context_concatenated_joins_texts(
 ) -> None:
     persistence, _ = corpus
     ctx = await chunk_with_context(
-        persistence, source_id, "chk:s:a:1", before=1, after=0,
+        persistence,
+        source_id,
+        "chk:s:a:1",
+        before=1,
+        after=0,
     )
     assert ctx is not None
     text = ctx.concatenated(sep="\n---\n")
@@ -79,5 +91,8 @@ async def test_context_rejects_negative_bounds(
     persistence, _ = corpus
     with pytest.raises(ValueError, match="non-negative"):
         await chunk_with_context(
-            persistence, source_id, "chk:s:a:0", before=-1,
+            persistence,
+            source_id,
+            "chk:s:a:0",
+            before=-1,
         )

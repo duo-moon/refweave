@@ -99,9 +99,7 @@ def _document_metadata(
     tags_value = frontmatter.get("tags")
     tags = tuple(tags_value) if isinstance(tags_value, list) else ()
     remainder = {
-        key: value
-        for key, value in frontmatter.items()
-        if key not in _RESERVED_FRONTMATTER_KEYS
+        key: value for key, value in frontmatter.items() if key not in _RESERVED_FRONTMATTER_KEYS
     }
     extra = MarkdownExtra(
         path=raw.path,

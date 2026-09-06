@@ -111,8 +111,7 @@ def test_named_entities_are_substituted_before_parse() -> None:
 def test_toc_macro_is_dropped() -> None:
     """`toc` is in _DROP_MACROS — no element emitted."""
     result = _parse(
-        '<ac:structured-macro xmlns:ac="http://atlassian.com/content" '
-        'ac:name="toc"/>',
+        '<ac:structured-macro xmlns:ac="http://atlassian.com/content" ' 'ac:name="toc"/>',
     )
     assert result == []
 
@@ -125,7 +124,7 @@ def test_code_macro_becomes_code_element() -> None:
         '<ac:structured-macro xmlns:ac="http://atlassian.com/content" '
         'ac:name="code">'
         '<ac:plain-text-body><![CDATA[print("hi")]]></ac:plain-text-body>'
-        '</ac:structured-macro>'
+        "</ac:structured-macro>"
     )
     result = _parse(xhtml)
     assert len(result) == 1
@@ -138,8 +137,8 @@ def test_info_panel_macro_becomes_callout_element() -> None:
     xhtml = (
         '<ac:structured-macro xmlns:ac="http://atlassian.com/content" '
         'ac:name="info">'
-        '<ac:rich-text-body><p>Heads up</p></ac:rich-text-body>'
-        '</ac:structured-macro>'
+        "<ac:rich-text-body><p>Heads up</p></ac:rich-text-body>"
+        "</ac:structured-macro>"
     )
     result = _parse(xhtml)
     assert result[0].kind == ElementKind.CALLOUT
@@ -153,8 +152,8 @@ def test_anchor_macro_attaches_to_next_element() -> None:
         '<ac:structured-macro xmlns:ac="http://atlassian.com/content" '
         'ac:name="anchor">'
         '<ac:parameter ac:name="">bookmark</ac:parameter>'
-        '</ac:structured-macro>'
-        '<p>Anchored paragraph</p>'
+        "</ac:structured-macro>"
+        "<p>Anchored paragraph</p>"
     )
     result = _parse(xhtml)
     # One element (the anchor macro folded into the following paragraph).
@@ -168,7 +167,7 @@ def test_trailing_anchor_without_next_element_stays_standalone() -> None:
         '<ac:structured-macro xmlns:ac="http://atlassian.com/content" '
         'ac:name="anchor">'
         '<ac:parameter ac:name="">stub</ac:parameter>'
-        '</ac:structured-macro>'
+        "</ac:structured-macro>"
     )
     result = _parse(xhtml)
     assert len(result) == 1

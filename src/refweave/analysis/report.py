@@ -81,8 +81,7 @@ class CorpusReport:
             clusters_section = f"\n## Top clusters (by chunk count)\n{top_lines}"
         else:
             clusters_section = (
-                "\n## Top clusters\n"
-                "_no clusters — run `recompute_clusters` after sync._\n"
+                "\n## Top clusters\n" "_no clusters — run `recompute_clusters` after sync._\n"
             )
         return header + counts + chunks_hist + link_stats + clusters_section
 

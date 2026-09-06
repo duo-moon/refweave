@@ -73,9 +73,7 @@ class ConfluenceSource:
             concurrency=concurrency,
             max_retries=max_retries,
         )
-        self._api: ConfluenceApi = (
-            CloudApi(self._http) if tier == "cloud" else DcApi(self._http)
-        )
+        self._api: ConfluenceApi = CloudApi(self._http) if tier == "cloud" else DcApi(self._http)
 
     async def aclose(self) -> None:
         await self._http.aclose()

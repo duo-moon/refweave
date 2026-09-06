@@ -128,6 +128,7 @@ ignore = [
     "PLR0913",    # too many arguments (config-like dataclasses)
     "TRY003",     # long exception messages
     "UP031",      # allow %-formatting alongside .format/f-string
+    "ISC001",     # conflicts with `ruff format` (single-line implicit concat)
 ]
 
 [tool.ruff.lint.per-file-ignores]

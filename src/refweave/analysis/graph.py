@@ -39,7 +39,9 @@ def _cluster_color(cluster_id: int) -> str:
     """Deterministic pastel hex colour for a cluster id (golden-angle rotation)."""
     hue = ((cluster_id * _HUE_GOLDEN_ANGLE) % 360) / 360
     r, g, b = colorsys.hls_to_rgb(
-        hue, _CLUSTER_HUE_LIGHTNESS, _CLUSTER_HUE_SATURATION,
+        hue,
+        _CLUSTER_HUE_LIGHTNESS,
+        _CLUSTER_HUE_SATURATION,
     )
     return f"#{int(r * 255):02x}{int(g * 255):02x}{int(b * 255):02x}"
 
@@ -90,7 +92,9 @@ async def document_graph_mermaid(
 
     if max_nodes is not None and len(doc_titles) > max_nodes:
         kept, others_edges, has_others = _select_top_nodes(
-            doc_titles, edges, max_nodes,
+            doc_titles,
+            edges,
+            max_nodes,
         )
     else:
         kept = set(doc_titles)
@@ -152,10 +156,8 @@ def _render_mermaid(
         node_ids[doc_id] = safe
         title = _escape_label(doc_titles.get(doc_id, doc_id))
         cluster_id = doc_clusters.get(doc_id)
-        class_suffix = (
-            f":::c{cluster_id}" if cluster_id is not None else ":::cnone"
-        )
-        lines.append(f"    {safe}[\"{title}\"]{class_suffix}")
+        class_suffix = f":::c{cluster_id}" if cluster_id is not None else ":::cnone"
+        lines.append(f'    {safe}["{title}"]{class_suffix}')
         if cluster_id is not None:
             clusters_seen.add(cluster_id)
     if include_others:
@@ -174,8 +176,7 @@ def _render_mermaid(
         f"    classDef cnone fill:{_UNCLUSTERED_COLOR},stroke:#888,color:#111",
     )
     lines.extend(
-        f"    classDef c{cluster_id} "
-        f"fill:{_cluster_color(cluster_id)},stroke:#333,color:#111"
+        f"    classDef c{cluster_id} " f"fill:{_cluster_color(cluster_id)},stroke:#333,color:#111"
         for cluster_id in sorted(clusters_seen)
     )
     return "\n".join(lines) + "\n"
@@ -188,4 +189,4 @@ def _safe_id(doc_id: str) -> str:
 
 def _escape_label(text: str) -> str:
     """Escape characters that break Mermaid's `["…"]` node label syntax."""
-    return text.replace("\\", "\\\\").replace('"', "\\\"").replace("\n", " ")
+    return text.replace("\\", "\\\\").replace('"', '\\"').replace("\n", " ")
