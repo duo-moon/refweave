@@ -308,11 +308,6 @@ poetry run ruff check src tests
 poetry run mypy src tests
 ```
 
-Live-tenant exploration and ad-hoc benchmarks live outside VCS in a
-gitignored `scripts/` directory. Copy the Quick start block above into
-your own script and point `MarkdownSource` / `ConfluenceSource` /
-`JiraSource` at whatever corpus you want to poke at.
-
 ## License
 
 MIT.
